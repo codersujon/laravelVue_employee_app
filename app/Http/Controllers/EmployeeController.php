@@ -63,9 +63,18 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $employee = Employee::find($id);
-        $employee->update($request->all());
-        return response()->json("Employee Updated!");
+        
+        $employee = Employee::where('id', $id)->update([
+            "name"=>$request->name,
+            "address"=> $request->address,
+            "mobile_no"=> $request->mobile_no
+        ]);
+        
+        if(!empty($employee)){
+            return response()->json("Employee Updated!");
+        }else{
+            return response()->json("Employee not Updated!");
+        }
     }
 
     /**
